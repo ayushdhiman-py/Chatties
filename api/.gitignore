@@ -7,8 +7,8 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-/api/node_modules
-/api/.env
+/node_modules
+/.env
 
 
 dist
