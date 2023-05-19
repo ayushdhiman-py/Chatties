@@ -8,6 +8,8 @@ const cookieParser = require("cookie-parser");
 const ws = require("ws");
 const MsgModel = require("./models/Message");
 const fs = require("fs");
+const cloudinary = require("./cloudinary.js");
+const axios = require("axios");
 
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL);
@@ -150,7 +152,6 @@ wss.on("connection", (connection, req) => {
   }, 2000);
   connection.on("pong", () => {
     clearTimeout(connection.deathTimer);
-    console.log("pong");
   });
 
   // user data collected form the cookie for this connection
@@ -184,7 +185,7 @@ wss.on("connection", (connection, req) => {
       const ext = parts[parts.length - 1];
       filename = Date.now() + "." + ext;
       const path = __dirname + "/uploads/" + filename;
-      const bufferData = new Buffer.from(file.data.split(",")[1], "base64");
+      const bufferData = new Buffer.form(file.data.split(",")[1], "base64");
       fs.writeFile(path, bufferData, () => {
         console.log("file saved:" + path);
       });
