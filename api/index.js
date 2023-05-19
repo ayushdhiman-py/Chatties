@@ -1,7 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const User = require("./models/User");
 const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -10,11 +9,12 @@ const MsgModel = require("./models/Message");
 const fs = require("fs");
 const cloudinary = require("./cloudinary.js");
 const axios = require("axios");
+const UserModel = require("./models/User");
 
 dotenv.config();
-mongoose.connect(process.env.MONGO_URL);
 const jwtSecret = process.env.JWT_SECRET;
 
+mongoose.connect(process.env.MONGO_URL);
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
@@ -58,7 +58,7 @@ app.get("/messages/:userId", async (req, res) => {
 
 // here we get all the people
 app.get("/people", async (req, res) => {
-  const users = await User.find({}, { _id: 1, username: 1 });
+  const users = await UserModel.find({}, { _id: 1, username: 1 });
   res.json(users);
 });
 
@@ -76,7 +76,7 @@ app.get("/profile", (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { username, password } = req.body;
-  const foundUser = await User.findOne({ username });
+  const foundUser = await UserModel.findOne({ username });
   if (foundUser) {
     console.log(password, foundUser.password);
     if (password == foundUser.password) {
@@ -187,7 +187,7 @@ wss.on("connection", (connection, req) => {
       const path = __dirname + "/uploads/" + filename;
       const bufferData = new Buffer.from(file.data.split(",")[1], "base64");
       fs.writeFile(path, bufferData, () => {
-        console.log("file saved:" + path);
+        console.log("file saved:" + bufferData);
       });
     }
     if (recipient && (text || file)) {
