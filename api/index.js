@@ -102,7 +102,7 @@ app.post("/logout", (req, res) => {
 app.post("/register", async (req, res) => {
   const { username, password } = req.body;
   try {
-    const createdUser = await User.create({ username, password });
+    const createdUser = await UserModel.create({ username, password });
     jwt.sign(
       { userId: createdUser._id, username },
       jwtSecret,
@@ -179,6 +179,7 @@ wss.on("connection", (connection, req) => {
     const messageData = JSON.parse(message.toString());
     const { recipient, text, file } = messageData;
     let filename = null;
+    let result = null;
     if (file) {
       console.log("size", file.data.length);
       const parts = file.name.split(".");
@@ -187,15 +188,31 @@ wss.on("connection", (connection, req) => {
       const path = __dirname + "/uploads/" + filename;
       const bufferData = new Buffer.from(file.data.split(",")[1], "base64");
       fs.writeFile(path, bufferData, () => {
-        console.log("file saved:" + bufferData);
+        console.log("file saved:" + path);
       });
+      try {
+        result = await cloudinary.uploader.upload(file.data, {
+          upload_preset: "chatapp",
+          cloud_name: process.env.CLOUD_NAME,
+          api_key: process.env.API_KEY,
+          api_secret: process.env.API_SECRET,
+        });
+        console.log(result.public_id);
+        app.get("/", (req, res) => {
+          const data = {
+            image: result.public_id,
+          };
+        });
+      } catch (error) {
+        console.log("error", error);
+      }
     }
     if (recipient && (text || file)) {
       const messageDoc = await MsgModel.create({
         sender: connection.userId,
         recipient,
         text,
-        file: file ? filename : null,
+        file: file ? result.public_id : null,
       });
       console.log("created message");
       [...wss.clients]
@@ -206,7 +223,7 @@ wss.on("connection", (connection, req) => {
               text,
               sender: connection.userId,
               recipient,
-              file: file ? filename : null,
+              file: file ? result.public_id : null,
               _id: messageDoc._id,
             })
           )

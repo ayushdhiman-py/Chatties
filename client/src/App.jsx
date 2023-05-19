@@ -4,6 +4,7 @@ import Routes from "./Routes";
 
 function App() {
   axios.defaults.baseURL = "http://localhost:5000";
+  axios.defaults.imageURL = "https://";
 
   axios.defaults.withCredentials = true;
 

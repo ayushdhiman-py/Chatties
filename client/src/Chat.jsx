@@ -223,9 +223,8 @@ export default function Chat() {
                             target="_blank"
                             className="flex items-center gap-1 border-b"
                             href={
-                              axios.defaults.baseURL +
-                              "/uploads/" +
-                              message.file
+                              axios.defaults.imageURL +
+                              `res.cloudinary.com/dg2mvmnas/image/upload/v1684516815/${message.file}`
                             }
                           >
                             <svg
