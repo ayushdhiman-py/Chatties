@@ -25,6 +25,7 @@ app.use(
     optionSuccessStatus: 200,
   })
 );
+// app.use("/uploads", express.static(__dirname + "/uploads"));
 
 async function getUserDataFromReq(req) {
   return new Promise((res, rej) => {
