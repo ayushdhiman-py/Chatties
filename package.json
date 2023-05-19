@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon api/index.js",
+    "start": "cd api && nodemon start",
     "build":"cd client && npm install"
   },
   "author": "",
