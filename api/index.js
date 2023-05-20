@@ -10,7 +10,7 @@ const fs = require("fs");
 const cloudinary = require("./cloudinary.js");
 const axios = require("axios");
 const UserModel = require("./models/User");
-const path = require("path");
+const path = requrie("path");
 
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
@@ -26,6 +26,7 @@ app.use(
     optionSuccessStatus: 200,
   })
 );
+// app.use("/uploads", express.static(__dirname + "/uploads"));
 
 async function getUserDataFromReq(req) {
   return new Promise((res, rej) => {
@@ -40,18 +41,18 @@ async function getUserDataFromReq(req) {
     }
   });
 }
+app.get("/", (req, res) => {
+  res.json("ok tested");
+});
 
-const __dirname1 = path.resolve();
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname1, "/client/dist")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname1, "client", "dist", "index.html"));
-  });
-} else {
-  app.get("/", (req, res) => {
-    res.json("ok tested");
-  });
-}
+// const __dirname1 = path.resolve();
+// if (process.env.NODE_ENV === "production") {
+//   app.use(express.static(path.join(__dirname1, "/client/build")));
+//   app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname1, "client", "build", "index.html"));
+//   });
+// } else {
+// }
 
 app.get("/messages/:userId", async (req, res) => {
   const { userId } = req.params;
