@@ -27,10 +27,6 @@ app.use(
   })
 );
 // app.use("/uploads", express.static(__dirname + "/uploads"));
-app.get("/", (req, res) => {
-  res.status(200);
-  res.json("ok tested");
-});
 
 async function getUserDataFromReq(req) {
   return new Promise((res, rej) => {
@@ -46,14 +42,19 @@ async function getUserDataFromReq(req) {
   });
 }
 
-// const __dirname1 = path.resolve();
-// if (process.env.NODE_ENV === "production") {
-//   // app.use(express.static(path.join(__dirname1, "/client/dist")));
-//   // app.get("*", (req, res) => {
-//   //   res.sendFile(path.join(__dirname1, "client", "dist", "index.html"));
-//   // });
-// } else {
-// }
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "/client/dist")));
+  app.get("*", (req, res) => {
+    // res.sendFile(path.join(__dirname1, "client", "dist", "index.html"));
+    res.json("this is not okay")
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.status(200);
+    res.json("ok tested");
+  });
+}
 
 app.get("/messages/:userId", async (req, res) => {
   const { userId } = req.params;
