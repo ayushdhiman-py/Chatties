@@ -21,7 +21,7 @@ export default function Chat() {
   }, [selectedUserId]);
 
   function connectToWs() {
-    const ws = new WebSocket("ws://localhost:5000");
+    const ws = new WebSocket("ws:https://chatties.onrender.com");
     setWs(ws);
 
     ws.addEventListener("message", handleMessage);
