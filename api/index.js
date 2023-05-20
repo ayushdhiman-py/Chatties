@@ -10,7 +10,7 @@ const fs = require("fs");
 const cloudinary = require("./cloudinary.js");
 const axios = require("axios");
 const UserModel = require("./models/User");
-const path = requrie("path");
+const path = require("path");
 
 dotenv.config();
 const jwtSecret = process.env.JWT_SECRET;
@@ -26,7 +26,6 @@ app.use(
     optionSuccessStatus: 200,
   })
 );
-// app.use("/uploads", express.static(__dirname + "/uploads"));
 
 async function getUserDataFromReq(req) {
   return new Promise((res, rej) => {
