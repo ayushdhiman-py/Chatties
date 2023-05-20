@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "cd api && nodemon start",
-    "build":"cd client && npm install"
+    "build":"cd client && npm start"
   },
   "author": "",
   "license": "ISC",
