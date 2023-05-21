@@ -108,7 +108,7 @@ export default function Chat() {
     axios.get("/people").then((res) => {
       const offlinePeopleArr = res.data
         .filter((p) => p._id !== id)
-        .filter((p) => !Object.keys(onlinePeople).includes(p._id));
+        .filter((p) => !Object.values(onlinePeople).includes(p._id));
       const offlinePeople = {};
       console.log(offlinePeopleArr)
       offlinePeopleArr.forEach((p) => {
