@@ -104,16 +104,30 @@ export default function Chat() {
     }
   }, [messages]);
 
+  // useEffect(() => {
+  //   axios.get("/people").then((res) => {
+  //     const offlinePeopleArr = res.data
+  //       .filter((p) => p._id !== id)
+  //       .filter((p) => !Object.keys(onlinePeople).includes(p._id));
+  //     const offlinePeople = {};
+  //     offlinePeopleArr.forEach((p) => {
+  //       offlinePeople[p._id] = p;
+  //     });
+  //     setOfflinePeople(offlinePeople);
+  //   });
+  // }, [onlinePeople]);
   useEffect(() => {
     axios.get("/people").then((res) => {
-      const offlinePeopleArr = res.data
-        .filter((p) => p._id !== id)
-        .filter((p) => !Object.keys(onlinePeople).includes(p._id));
-      const offlinePeople = {};
-      offlinePeopleArr.forEach((p) => {
-        offlinePeople[p._id] = p;
-      });
-      setOfflinePeople(offlinePeople);
+      if (Array.isArray(res.data)) {
+        const offlinePeopleArr = res.data
+          .filter((p) => p._id !== id)
+          .filter((p) => !Object.keys(onlinePeople).includes(p._id));
+        const offlinePeople = {};
+        offlinePeopleArr.forEach((p) => {
+          offlinePeople[p._id] = p;
+        });
+        setOfflinePeople(offlinePeople);
+      }
     });
   }, [onlinePeople]);
 
