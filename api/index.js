@@ -70,7 +70,8 @@ app.get("/messages/:userId", async (req, res) => {
 // here we get all the people
 app.get("/people", async (req, res) => {
   const users = await UserModel.find({}, { '_id': 1, username: 1 });
-  res.json(typeof users);
+  res.json(users);
+  console.log(users);
 });
 
 app.get("/profile", (req, res) => {
