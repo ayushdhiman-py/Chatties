@@ -42,23 +42,19 @@ async function getUserDataFromReq(req) {
   });
 }
 
-// const __dirname1 = path.resolve();
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static(path.join(__dirname1, "../client/dist")));
-//   app.get("*", (req, res) => {
-//     res.sendFile(path.join(__dirname1, "../client", "dist", "index.html"));
-//     console.log(path.join(__dirname1, "../client", "dist", "index.html"))
-//   });
-// } else {
-//   app.get("/", (req, res) => {
-//     res.status(200);
-//     res.json("ok tested");
-//   });
-// }
-app.get("/", (req, res) => {
-  res.status(200);
-  res.json("ok tested");
-});
+const __dirname1 = path.resolve();
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname1, "../client/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname1, "../client", "dist"));
+    console.log(path.join(__dirname1, "../client", "dist"))
+  });
+} else {
+  app.get("/", (req, res) => {
+    res.status(200);
+    res.json("ok tested");
+  });
+}
 
 app.get("/messages/:userId", async (req, res) => {
   const { userId } = req.params;
