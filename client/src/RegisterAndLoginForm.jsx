@@ -19,7 +19,7 @@ export default function RegisterAndLoginForm() {
   }
 
   return (
-    <div className="bg-blue-50 h-screen flex items-center">
+    <div className="bg-blue-50 h-screen flex items-center" style={{backgroundImage:`url('https://png.pngtree.com/background/20211215/original/pngtree-emoji-blue-gradient-social-media-background-picture-image_1461687.jpg')`}}>
       <form className="w-64 mx-auto mb-12" onSubmit={handleSubmit}>
         <input
           value={username}
